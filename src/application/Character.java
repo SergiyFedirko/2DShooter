@@ -52,9 +52,6 @@ public class Character extends Pane{
         }
     }
     
-//    public void isFiring(int f) {
-//    }
-    
   public int getScore() {
 	  return score;
   }
