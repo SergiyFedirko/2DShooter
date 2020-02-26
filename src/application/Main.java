@@ -67,7 +67,6 @@ public class Main extends Application {
 			player.moveX(-2);
 		} else {
 			player.animation.stop();
-//			player.isFiring(0);
 		}
 		lbl.setText("Score: " + player.getScore());
 	}
@@ -97,7 +96,6 @@ public class Main extends Application {
 		lbl.setFont(new Font(20));
 		root.getChildren().add(lbl);
 		
-//		lbl.
     	
 
     }
