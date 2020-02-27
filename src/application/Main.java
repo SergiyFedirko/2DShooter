@@ -121,7 +121,7 @@ public void bullet(int one) {
 		area.setStroke(Color.BLACK);
 		root.getChildren().addAll(area);
     	
-		lbl.setText("Score: " + player.getScore());
+		lbl.setText("Score: " + Bullet.getScore());
 		lbl.setLayoutX(450);
 		lbl.setTextFill(Color.BLACK);
 		lbl.setFont(new Font(20));
