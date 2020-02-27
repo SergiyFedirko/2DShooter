@@ -16,7 +16,6 @@ public class Character extends Pane{
     int offsetY = 0;
     int width = 32;
     int height = 32;
-    int score = 0;
     
     Rectangle removeRect = null;
     SpriteAnimation animation;
@@ -40,7 +39,6 @@ public class Character extends Pane{
         for(int i = 0; i < Math.abs(x); i++) {
             if (right && this.getTranslateX()<568) this.setTranslateX(this.getTranslateX() + 1);
             else if(this.getTranslateX()>0) this.setTranslateX(this.getTranslateX() - 1);
-            isBonuseEat();
         }
     }
     public void moveY(int y) {
@@ -48,24 +46,7 @@ public class Character extends Pane{
         for (int i = 0; i < Math.abs(y); i++) {
             if (down && this.getTranslateY()<568) this.setTranslateY(this.getTranslateY() + 1);
             else if(this.getTranslateY()>0) this.setTranslateY(this.getTranslateY() - 1);
-            isBonuseEat();
         }
     }
     
-  public int getScore() {
-	  return score;
-  }
-
-    public void isBonuseEat(){
-        Main.bonuses.forEach((rect) -> {
-            if (this.getBoundsInParent().intersects(rect.getBoundsInParent())) {
-                removeRect = rect;
-                score++;
-                System.out.println(score);
-            }
-
-        });
-        Main.bonuses.remove(removeRect);
-        Main.root.getChildren().remove(removeRect);
-    }
 }
