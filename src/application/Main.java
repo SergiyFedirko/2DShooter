@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
@@ -23,6 +24,7 @@ public class Main extends Application {
 	private HashMap<KeyCode, Boolean> keys = new HashMap<>();
 	public static ArrayList<Rectangle> bonuses = new ArrayList<>();
 	
+	int a = 0;
 	
 	Image image = new Image(getClass().getResourceAsStream("hero.png"));
 	ImageView imageView = new ImageView(image);
@@ -45,7 +47,30 @@ public class Main extends Application {
 		}
 	}
 
-	
+public void bullet(int one) {
+
+		one = one%5;
+		if(one==1) {
+		double x = player.getX() + 15;
+		double y = player.getY() + 15;
+		Ellipse elipse = new Ellipse(5, 5);
+		elipse.setCenterX(x);
+		elipse.setCenterY(y);
+		elipse.setFill(Color.RED);
+		root.getChildren().addAll(elipse);
+		
+		if(player.animation.getOffsetY()==64)
+			Bullet.bulletsR.add(elipse);
+		if(player.animation.getOffsetY()==32)
+			Bullet.bulletsL.add(elipse);
+		if(player.animation.getOffsetY()==0)
+			Bullet.bulletsU.add(elipse);
+		if(player.animation.getOffsetY()==96)
+			Bullet.bulletsD.add(elipse);
+
+		}
+
+	}
 
 	public void update() {
 		
@@ -65,10 +90,16 @@ public class Main extends Application {
 			player.animation.play();
 			player.animation.setOffsetY(32);
 			player.moveX(-2);
-		} else {
+		} else if (isPressed(KeyCode.CONTROL)) {
+			a++;
+			bullet(a);
+		}else {
+			a=0;
 			player.animation.stop();
 		}
-		lbl.setText("Score: " + player.getScore());
+//		lbl.setText("Score: " + player.getScore());
+		Bullet.BulletRemove();
+		lbl.setText("Score: " + Bullet.getScore());
 	}
 	
 
@@ -95,7 +126,6 @@ public class Main extends Application {
 		lbl.setTextFill(Color.BLACK);
 		lbl.setFont(new Font(20));
 		root.getChildren().add(lbl);
-		
     	
 
     }
