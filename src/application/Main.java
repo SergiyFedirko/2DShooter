@@ -17,18 +17,20 @@ import javafx.scene.text.Font;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
-
 public class Main extends Application {
-	
+
 	private HashMap<KeyCode, Boolean> keys = new HashMap<>();
 	public static ArrayList<Rectangle> bonuses = new ArrayList<>();
-	
+	public static ArrayList<Enemy> enemys = new ArrayList<>();
+
 	int a = 0;
-	
+
 	Image image = new Image(getClass().getResourceAsStream("hero.png"));
 	ImageView imageView = new ImageView(image);
 	Character player = new Character(imageView);
+
+	Enemy enemy = null;
+	int EnemyCount = 2;
 
 	Label lbl = new Label();
 
@@ -47,33 +49,52 @@ public class Main extends Application {
 		}
 	}
 
-public void bullet(int one) {
+	public void bullet(int one) {
 
-		one = one%5;
-		if(one==1) {
-		double x = player.getX() + 15;
-		double y = player.getY() + 15;
-		Ellipse elipse = new Ellipse(5, 5);
-		elipse.setCenterX(x);
-		elipse.setCenterY(y);
-		elipse.setFill(Color.RED);
-		root.getChildren().addAll(elipse);
-		
-		if(player.animation.getOffsetY()==64)
-			Bullet.bulletsR.add(elipse);
-		if(player.animation.getOffsetY()==32)
-			Bullet.bulletsL.add(elipse);
-		if(player.animation.getOffsetY()==0)
-			Bullet.bulletsU.add(elipse);
-		if(player.animation.getOffsetY()==96)
-			Bullet.bulletsD.add(elipse);
+		one = one % 5;
+		if (one == 1) {
+			double x = player.getX() + 15;
+			double y = player.getY() + 15;
+			Ellipse elipse = new Ellipse(5, 5);
+			elipse.setCenterX(x);
+			elipse.setCenterY(y);
+			elipse.setFill(Color.RED);
+			root.getChildren().addAll(elipse);
+
+			if (player.animation.getOffsetY() == 64)
+				Bullet.bulletsR.add(elipse);
+			if (player.animation.getOffsetY() == 32)
+				Bullet.bulletsL.add(elipse);
+			if (player.animation.getOffsetY() == 0)
+				Bullet.bulletsU.add(elipse);
+			if (player.animation.getOffsetY() == 96)
+				Bullet.bulletsD.add(elipse);
 
 		}
 
 	}
 
-	public void update() {
+	public void enemyAdd(int count) {
+
+		for (int i = 0; i < count; i++) {
+			Image imageEnemy = new Image(getClass().getResourceAsStream("enemy.png"));
+			ImageView imageViewEnemy = new ImageView(imageEnemy);
+			enemy = new Enemy(imageViewEnemy);
+			enemys.add(enemy);
+			root.getChildren().add(enemy);
+			enemy.animation.play();
+		}
 		
+	}
+
+	public void enemyMove() {
+		System.out.println(EnemyCount);
+		for (int i = 0; i < EnemyCount; i++)
+			enemys.get(i).moveX(i + 1);
+	}
+
+	public void update() {
+
 		if (isPressed(KeyCode.UP)) {
 			player.animation.play();
 			player.animation.setOffsetY(96);
@@ -93,48 +114,50 @@ public void bullet(int one) {
 		} else if (isPressed(KeyCode.CONTROL)) {
 			a++;
 			bullet(a);
-		}else {
-			a=0;
+		} else {
+			a = 0;
 			player.animation.stop();
 		}
-//		lbl.setText("Score: " + player.getScore());
+		
 		Bullet.BulletRemove();
 		lbl.setText("Score: " + Bullet.getScore());
+		
+		enemyMove();
 	}
-	
-
 
 	public boolean isPressed(KeyCode key) {
 		return keys.getOrDefault(key, false);
 	}
-	
+
 	public void Delete() {
 	}
-	
-    private void initContent(){
-    	
-    	root.setPrefSize(600, 600);
+
+	private void initContent() {
+
+		root.setPrefSize(600, 600);
 		root.getChildren().addAll(player);
-		
+
 		Rectangle area = new Rectangle(0, 0, 601, 601);
 		area.setFill(Color.TRANSPARENT);
 		area.setStroke(Color.BLACK);
 		root.getChildren().addAll(area);
-    	
+
 		lbl.setText("Score: " + Bullet.getScore());
 		lbl.setLayoutX(450);
 		lbl.setTextFill(Color.BLACK);
 		lbl.setFont(new Font(20));
 		root.getChildren().add(lbl);
-    	
+		
+		
+		enemyAdd(EnemyCount);
 
-    }
+	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		
+
 		initContent();
-		
+
 		Scene scene = new Scene(root);
 		scene.setOnKeyPressed(event -> keys.put(event.getCode(), true));
 		scene.setOnKeyReleased(event -> {
