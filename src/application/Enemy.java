@@ -60,5 +60,7 @@ public class Enemy extends Pane{
 //            isEnemyDestroy();
             }
     
-
+public void isEnemyDestroy() {
+    			
+    		}
 }
