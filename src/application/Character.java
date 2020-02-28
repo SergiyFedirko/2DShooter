@@ -51,13 +51,6 @@ public class Character extends Pane{
 //            isBonuseEat();
         }
     }
-    
-//    public void isFiring(int f) {
-//    }
-    
-//  public int getScore() {
-//	  return score;
-//  }
 
 //    public void isBonuseEat(){
 //        Main.bonuses.forEach((rect) -> {
